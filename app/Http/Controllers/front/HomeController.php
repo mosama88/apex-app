@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\front;
 
-use App\Http\Controllers\Controller;
+use App\Models\Info;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
@@ -12,7 +13,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
+        $infos = Info::all();
+        return view('home', compact('infos'));
 
     }
 
