@@ -2,14 +2,6 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\HomeController as AdminHome;
-use App\Http\Controllers\Admin\TeamController as AdminTaem;
-use App\Http\Controllers\Admin\AboutController as AdminAbout;
-use App\Http\Controllers\Admin\ServiceController as AdminService;
-use App\Http\Controllers\Admin\AppointmentController as AdminAppointment;
-use App\Http\Controllers\Admin\FeaturesController as AdminFeatures;
-use App\Http\Controllers\Admin\TestimonialController as AdminTestimonial;
-use App\Http\Controllers\Admin\ContactController as AdminContact;
 use App\Http\Controllers\front\HomeController;
 use App\Http\Controllers\front\TeamController;
 use App\Http\Controllers\front\AboutController;
@@ -18,6 +10,15 @@ use App\Http\Controllers\front\FeatureController;
 use App\Http\Controllers\front\ServiceController;
 use App\Http\Controllers\front\AppointmentController;
 use App\Http\Controllers\front\TestimonialController;
+use App\Http\Controllers\Admin\InfoController;
+use App\Http\Controllers\Admin\HomeController as AdminHome;
+use App\Http\Controllers\Admin\TeamController as AdminTaem;
+use App\Http\Controllers\Admin\AboutController as AdminAbout;
+use App\Http\Controllers\Admin\ContactController as AdminContact;
+use App\Http\Controllers\Admin\ServiceController as AdminService;
+use App\Http\Controllers\Admin\FeaturesController as AdminFeatures;
+use App\Http\Controllers\Admin\AppointmentController as AdminAppointment;
+use App\Http\Controllers\Admin\TestimonialController as AdminTestimonial;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,14 +42,15 @@ Auth::routes();
 Route::group(['middleware'=>'auth'], function()
 {
 Route::name('dashboard.')->group(function () {
-Route::resource('/index', AdminHome::class);
-Route::get('/about', [AdminAbout::class, 'index'])->name('about');
-Route::get('/service', [AdminService::class, 'index'])->name('service');
-Route::get('/appointment', [AdminAppointment::class, 'index'])->name('appointment');
-Route::get('/feature', [AdminFeatures::class, 'index'])->name('feature');
-Route::get('/taem', [AdminTaem::class, 'index'])->name('team');
-Route::get('/testimonial', [AdminTestimonial::class, 'index'])->name('testimonial');
-Route::get('/contact', [AdminContact::class, 'index'])->name('contact');
+Route::get('/index', [AdminHome::class, 'index'])->name('index');
+ Route::resource('/info', InfoController::class);
+// Route::get('/about', [AdminAbout::class, 'index'])->name('about');
+// Route::get('/service', [AdminService::class, 'index'])->name('service');
+// Route::get('/appointment', [AdminAppointment::class, 'index'])->name('appointment');
+// Route::get('/feature', [AdminFeatures::class, 'index'])->name('feature');
+// Route::get('/taem', [AdminTaem::class, 'index'])->name('team');
+// Route::get('/testimonial', [AdminTestimonial::class, 'index'])->name('testimonial');
+// Route::get('/contact', [AdminContact::class, 'index'])->name('contact');
 
 });
 

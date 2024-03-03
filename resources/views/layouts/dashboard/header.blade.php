@@ -258,11 +258,21 @@
                             </div>
                         </div>
 
+
+
+
+                        {{-- logout --}}
+
                         <div class="dropdown d-inline-block">
                             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="rounded-circle header-profile-user" src="{{asset('dashboard')}}/assets/images/users/user-4.jpg"
+                                <img class="rounded-circle header-profile-user" src="{{asset('dashboard')}}/assets//images/users/user-4.jpg"
                                     alt="Header Avatar">
+                                    @if(auth()->check())
+                                        <span class="mx-1 fw-normal">{{auth()->user()->name}}</span>
+                                    @else
+                                        Hello Guest!
+                                    @endif
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
@@ -271,7 +281,17 @@
                                 <a class="dropdown-item d-flex align-items-center" href="#"><i class="mdi mdi-cog font-size-17 align-middle me-1"></i> Settings<span class="badge bg-success ms-auto">11</span></a>
                                 <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline font-size-17 align-middle me-1"></i> Lock screen</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#"><i class="bx bx-power-off font-size-17 align-middle me-1 text-danger"></i> Logout</a>
+
+                                @if(Auth::check())
+                               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+                            </form>
+                            <a href="#" class="dropdown-item text-center text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fas fa-sign-out-alt"></i>Logout</a>
+@else
+    <a class="dropdown-item text-center text-danger" href="{{ route('login') }}">Login</a>
+@endif
+
                             </div>
                         </div>
 
@@ -286,6 +306,8 @@
 
                 <div data-simplebar class="h-100">
 
+                    @if (Route::has('login'))
+
                     <!--- Sidemenu -->
                     <div id="sidebar-menu">
                         <!-- Left Menu Start -->
@@ -293,13 +315,25 @@
                             <li class="menu-title">Main</li>
 
                             <li>
-                                <a href="index.html" class="waves-effect">
+                                <a href="{{ route('dashboard.index') }}" class="waves-effect">
                                     <i class="fas fa-tachometer-alt"></i>
                                     <span class="badge rounded-pill bg-primary float-end">1</span>
                                     <span>Dashboard</span>
                                 </a>
                             </li>
-
+                            <li>
+                                <a href="{{ route('front.home') }}" class="waves-effect">
+                                    <i class="fab fa-font-awesome"></i>
+                                    <span>Front Website</span>
+                                </a>
+                            </li>
+                            @auth
+                            <li>
+                                <a href="{{ route('dashboard.info.index') }}" class="waves-effect">
+                                    <i class="fas fa-info"></i>
+                                    <span>Info</span>
+                                </a>
+                            </li>
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
                                     <i class="ti-home"></i>
@@ -411,8 +445,39 @@
                             </li>
 
 
+                            <li class="">
+                                <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
+                                    <i class="ti-archive"></i>
+                                    <span> Authentication </span>
+                                </a>
+                                <ul class="sub-menu mm-collapse" aria-expanded="false" style="height: 0px;">
+      
+                  @else
+                                    <li><a href="{{ route('login') }}">Login</a></li>
+      
+                  @if (Route::has('register'))
+                                    <li><a href="{{ route('register') }}">Register</a></li>
+      
+                  @endif
+                  @endauth
+      
+                                    <li><a href="{{ route('password.update') }}">Reset Password</a></li>
+                                    @if(Auth::check())
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                    <li><a href="#" class="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                      Logout
+                                  </a></li>
+                               
+                                @endif                              
+                                </ul>
+                            </li>
 
+                            
+                            
                         </ul>
+                        @endif                              
                     </div>
                     <!-- Sidebar -->
                 </div>
